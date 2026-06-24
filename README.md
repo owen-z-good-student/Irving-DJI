@@ -68,7 +68,7 @@ Copy this repository into your local skills directory:
 
 ```bash
 mkdir -p ~/.config/opencode/skills
-git clone https://github.com/owen-z-good-student/awesome-dfr-integration-skill.git \
+git clone https://github.com/owen-z-good-student/Irving-DJI.git \
   ~/.config/opencode/skills/awesome-dfr-integration-skill
 ```
 
