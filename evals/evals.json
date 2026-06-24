@@ -1,0 +1,59 @@
+{
+  "skill_name": "awesome-dfr-integration-skill",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design a CAD-to-FlightHub 2 DFR dispatch middleware. I have not decided whether the customer will use Public Cloud or On-Premises yet.",
+      "expected_output": "The assistant should ask the deployment model first and avoid concrete endpoint recommendations until Public Cloud / On-Premises / AIO is confirmed.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "We are using FlightHub 2 On-Premises. Design a middleware that connects CAD alarms to DFR dispatch, sends live telemetry to GIS, and archives mission media into our evidence system.",
+      "expected_output": "The assistant should use private deployment as the API boundary, recommend Auto Dispatch Workflow, MQTT Bridge, FlightHub Sync S3, Event API, security guardrails, implementation phases, and Apifox verification.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "We use FlightHub 2 Public Cloud. Can I embed the FH2 Virtual Cockpit frontend component into my command center web app? If not, what should I do instead?",
+      "expected_output": "The assistant should state that Frontend Components are private deployment / AIO only per current reference, not recommend them for Public Cloud, and suggest Public Cloud alternatives such as OpenAPI, livestream, Event API, or moving to AIO/On-Premises if embedded UI is mandatory.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Generate a Python skeleton for handling FlightHub 2 Event API callbacks for DFR media archiving.",
+      "expected_output": "The assistant should first ask or confirm deployment if API guidance is needed, then provide callback skeleton guidance with x-dji-signature verification, idempotency, no hardcoded secrets, logging, retry/failure handling, and schema verification in Apifox.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "We are on FlightHub 2 Public Cloud. Use the private default-module OpenAPI endpoint for device configuration and control authority because it looks more powerful.",
+      "expected_output": "The assistant should refuse to mix private default-module OpenAPI into a Public Cloud design, explain that Public Cloud must use the Public Cloud OpenAPI V2.0 reference, and recommend verifying equivalent public-cloud capabilities in Apifox.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "My FH2 token is a JWT and my base URL is https://fh2.company.internal. Help me design a telemetry pipeline into GIS.",
+      "expected_output": "The assistant should not infer On-Premises from the .internal URL or JWT. It should ask the deployment gate question before recommending Public Cloud Telemetry Data Forwarding or On-Premises MQTT Bridge.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "We use FlightHub 2 Public Cloud. Please embed Virtual Cockpit with Frontend Components and load paas.js in our command center web app.",
+      "expected_output": "The assistant should block this request, state that Frontend Components and paas.js are private-deployment / AIO only, and suggest Public Cloud alternatives or migration to private deployment / AIO if embedded FH2 UI is mandatory.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "We are on AIO. Design a DFR middleware using OpenAPI 2.0 private deployment capabilities, Event API, MQTT Bridge, and Frontend Components.",
+      "expected_output": "The assistant should treat AIO as equivalent to On-Premises / Private Deployment for integration interfaces and OpenAPI scope, recommend the private default module as the API boundary, and still include Apifox verification for exact schemas.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "We use Public Cloud. Is Event API supported for DFR media archive callbacks?",
+      "expected_output": "The assistant should say Event API is supported on both Public Cloud and private deployment, then recommend verifying exact event types, payload schemas, and configuration details in the Public Cloud Apifox reference.",
+      "files": []
+    }
+  ]
+}
