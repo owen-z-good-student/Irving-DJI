@@ -122,5 +122,14 @@ Correct answer: Event API is supported on both Public Cloud and private deployme
 
 ## Latest references
 
+**English documentation:**
+
 - On-Premises / default module: `https://41b04hdzmc.apifox.cn/`
 - Public Cloud OpenAPI V2.0: `https://s.apifox.cn/5113ab93-b1c2-4f3c-bc06-c3656c5352fb`
+
+**中文文档 (Chinese documentation):**
+
+- 私有化 / 默认模块: `https://henvmbbf6x.apifox.cn/8983503m0`
+- 公有云 OpenAPI V2.0: `https://s.apifox.cn/4de4a239-c2cc-4572-9b65-90738289f37a`
+
+Serve the link set that matches the user's conversation language. When the language is ambiguous, provide both.

@@ -50,7 +50,7 @@ Use this map for high-level design. Always verify exact schemas in Apifox before
 | Device management | device list, project device details, thing model, HMS, RTK, pairing, SIM, network configuration | fleet readiness, health monitoring, troubleshooting. |
 | Real-time control | flight control commands, airborne task, point-to-fly, relay task, control authority, payload control | DFR mission intervention and supervised operations. |
 | Flight task | create tasks, query tasks, active wayline, operation logs, track, media resources | dispatch, monitoring, evidence linkage. |
-| Wayline | upload, list, detail, folder / file management | preplanned response routes and patrol paths. |
+| Wayline | upload, list, detail, folder / file management | preplanned response routes and **inspection patrol paths (see inspection-integration-architecture.md)**. |
 | Map | annotation layer, annotation feature, custom flight area, offline map, signal heatmap | shared operational picture and safety boundaries. |
 | Livestream | start livestream, stream forwarder, sharing, recording, intra-project stream | VMS / command center video integration. |
 | Media | folder, file list, file details, download URL, tags | evidence and archive workflows. |
@@ -119,4 +119,7 @@ These are examples from the On-Premises default module scope. Verify exact paths
 
 Use the latest On-Premises / default module documentation:
 
-`https://41b04hdzmc.apifox.cn/`
+- English: `https://41b04hdzmc.apifox.cn/`
+- 中文: `https://henvmbbf6x.apifox.cn/8983503m0`
+
+Serve the link matching the user's conversation language; when ambiguous, provide both.

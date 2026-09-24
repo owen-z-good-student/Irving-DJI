@@ -1,6 +1,8 @@
 # DFR Integration Architecture
 
-Last updated: 2026-06-24
+Last updated: 2026-07-09
+
+This file covers the DFR / emergency response scenario only. For inspection / patrol, see `inspection-integration-architecture.md`. For choosing between them, see `scenario-dfr-vs-inspection.md`.
 
 ## FH2 role in DFR
 

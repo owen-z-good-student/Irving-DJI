@@ -5,7 +5,7 @@ Last updated: 2026-06-24
 If your team uses Cursor, you can copy the following content into a project rule, for example:
 
 ```text
-.cursor/rules/awesome-dfr-integration.mdc
+.cursor/rules/fh2-integration.mdc
 ```
 
 ## Cursor rule content
@@ -31,6 +31,14 @@ When designing DJI Dock / FlightHub 2 middleware, first confirm the FlightHub 2 
 3. AIO / private all-in-one appliance
 
 Do not recommend FH2 OpenAPI endpoints until the deployment model is known.
+
+After deployment is known, confirm the workflow scenario:
+
+1. DFR / emergency response — alarm-driven, real-time livestream and human takeover
+2. Inspection / patrol — plan-driven, periodic, wayline + planned task, media capture and analysis
+3. Both
+
+Do not mix DFR and inspection interface logic. Do not apply DFR real-time-takeover to inspection, or cron scheduling to DFR alarm response.
 
 Use these boundaries:
 

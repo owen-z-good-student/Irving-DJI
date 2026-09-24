@@ -1,6 +1,13 @@
 # API Guardrails
 
-Last updated: 2026-06-24
+Last updated: 2026-07-09
+
+## 0. Two gates: deployment first, scenario second
+
+1. **Deployment gate (mandatory, first).** Determine Public Cloud / On-Premises / AIO before any OpenAPI guidance.
+2. **Scenario gate (second).** Determine DFR / emergency vs inspection / patrol before interface selection, since the two scenarios use different interfaces. See `scenario-dfr-vs-inspection.md`.
+
+Do not skip the deployment gate just because the scenario is clear. Do not mix DFR and inspection interface logic.
 
 ## 1. Deployment boundary is mandatory
 
@@ -130,6 +137,48 @@ Design should preserve:
 - geofence / no-fly-zone constraints
 - airspace and customer SOP approval
 - evidence chain-of-custody controls
+
+## 6.1 Map coordinate-system disclosure (mandatory)
+
+Any UI that lets an operator pick a target position on a map MUST disclose the basemap's coordinate system and its offset risk relative to the aircraft's WGS-84 coordinates.
+
+Disclose for **every** basemap, not only the obviously offset one. Silence on a basemap implies "no risk", which is itself misleading.
+
+| Basemap | Coordinate system | Offset vs WGS-84 |
+|---|---|---|
+| AMap / 高德 | GCJ-02 | High — up to several hundred metres, across all of China |
+| Google vector | GCJ-02 in Mainland China, WGS-84 elsewhere | Medium — region dependent |
+| Google satellite | WGS-84 | Low — aligned, but imagery may be outdated and will visibly misalign with GCJ-02 vector layers in China |
+| OpenStreetMap | WGS-84 | Low — no systematic offset, but data completeness and currency vary by region |
+
+Every disclosure must also carry the operational guidance:
+
+1. never treat the displayed map position as authoritative — the dock position is the reference
+2. keep task assignment within about 10 m of the dock
+3. keep the virtual cockpit in view and stay ready to take over
+
+These notices must appear both on **first load of the default basemap** and on **every basemap switch**. Showing them only on switch means a user landing on the default basemap never sees the warning.
+
+Reference implementation: `examples/dfr-public-cloud-demo/frontend/public/map-basemaps.json`.
+
+## 6.1.1 Third-party service compliance
+
+When a generated design or demo depends on an external provider (map tiles, geocoding, CDN, media services):
+
+- State explicitly whether the endpoint is an **official, licensed API** or an **unofficial/undocumented one**.
+- Unofficial endpoints (for example non-official map tile URLs) may be used for local demonstration only. They are unsupported, may break without notice, and **commercial use may violate the provider's terms of service**.
+- Any artifact using an unofficial endpoint MUST carry a visible compliance notice, and the production path MUST name the official alternative (for example Google Maps Platform with an API key, or a licensed domestic provider).
+- Never present an unofficial endpoint as production-ready just because it works without an API key.
+
+## 6.2 Inspection safety and data guardrails
+
+For inspection / patrol designs:
+
+- AI / VLM defect results must not be treated as the sole basis for asset action; keep human review.
+- Preserve payload and flight-control permission scoping for camera and control APIs.
+- Classify and retain inspection imagery and defect data per customer policy.
+- Log every planned-task dispatch and every downstream analysis handoff.
+- Do not apply DFR real-time-takeover logic to unattended inspection, and do not drive DFR alarm response from a cron schedule.
 
 ## 7. Known technical details to preserve
 

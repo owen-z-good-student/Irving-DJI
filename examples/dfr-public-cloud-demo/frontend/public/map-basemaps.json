@@ -1,0 +1,87 @@
+{
+  "defaultKey": "gaode",
+  "localeDefaults": {
+    "zh": "gaode",
+    "default": "google"
+  },
+  "basemaps": [
+    {
+      "key": "gaode",
+      "name": "高德地图（中国大陆推荐）",
+      "nameEn": "AMap (Recommended for Mainland China)",
+      "url": "https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
+      "maxZoom": 18,
+      "coordinateSystem": "GCJ-02",
+      "offsetRisk": "high",
+      "footerNotice": {
+        "enabled": true,
+        "text": "⚠️ 高风险：高德为 GCJ-02 坐标系，与无人机 WGS-84 存在偏移（最大可达数百米）。切勿以地图位置为基准，一切以机场位置为准。",
+        "textEn": "⚠️ High risk: AMap uses GCJ-02, which is offset from the drone's WGS-84 (up to several hundred metres). Never rely on the map position — always use the dock position as the reference."
+      },
+      "switchNotice": {
+        "enabled": true,
+        "message": "【坐标系偏移风险：高】\n\n高德地图使用 GCJ-02（火星坐标系），与无人机上报的 WGS-84 真实坐标存在系统性偏移，误差最大可达数百米。\n\n这意味着：你在地图上点击的位置，与无人机实际飞往的位置并不一致。\n\n安全要求：\n1. 切勿以地图显示位置为基准，一切以机场实际位置为准（机场位置相对准确）；\n2. DFR 任务指派请控制在机场周围 10 米范围内；\n3. 执行任务时务必时刻关注司空 2 虚拟驾驶舱，随时准备接管，确保飞行安全！",
+        "messageEn": "[Coordinate offset risk: HIGH]\n\nAMap uses the GCJ-02 coordinate system, which is systematically offset from the WGS-84 coordinates reported by the aircraft. The error can reach several hundred metres.\n\nThis means the point you click on the map is NOT where the aircraft will actually fly.\n\nSafety requirements:\n1. Never use the displayed map position as the reference — always use the actual dock position (which is relatively accurate).\n2. Keep DFR task assignment within about 10 m of the dock.\n3. Always keep the FlightHub 2 virtual cockpit in view and be ready to take over at any time."
+      }
+    },
+    {
+      "key": "google",
+      "name": "谷歌地图（海外推荐）",
+      "nameEn": "Google Maps (Recommended outside Mainland China)",
+      "url": "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+      "maxZoom": 20,
+      "coordinateSystem": "GCJ-02 (Mainland China) / WGS-84 (elsewhere)",
+      "offsetRisk": "medium",
+      "footerNotice": {
+        "enabled": true,
+        "text": "⚠️ 中风险：谷歌矢量图在中国大陆境内为 GCJ-02，存在坐标偏移；境外为 WGS-84，无偏移。境内作业请以机场位置为准。 ⚠️ 非官方瓦片接口，仅供演示，生产请用 Google Maps Platform 官方 API。",
+        "textEn": "⚠️ Medium risk: Google vector tiles use GCJ-02 inside Mainland China (offset) and WGS-84 elsewhere (no offset). Inside China, use the dock position as the reference. ⚠️ Unofficial tile endpoint, demo only. Use the official Google Maps Platform API in production."
+      },
+      "switchNotice": {
+        "enabled": true,
+        "message": "【坐标系偏移风险：中】\n\n谷歌矢量地图的坐标系随区域而变：\n· 中国大陆境内：GCJ-02，与无人机 WGS-84 存在偏移；\n· 中国大陆境外：WGS-84，与无人机坐标一致，无系统性偏移。\n\n安全要求：\n1. 在中国大陆作业时，切勿以地图位置为基准，请以机场实际位置为准，任务指派控制在机场周围 10 米范围内；\n2. 境外作业虽无系统性偏移，仍需核对机场位置；\n3. 执行任务时务必时刻关注司空 2 虚拟驾驶舱，随时准备接管，确保飞行安全！\n\n【接口合规提示】本 Demo 使用的是谷歌非官方公开瓦片接口，仅供本地演示与技术验证。该接口不受 Google 官方支持，可能随时变更或失效，且商用可能违反 Google 服务条款。生产环境请改用 Google Maps Platform 官方 API 并申请有效 API Key。",
+        "messageEn": "[Coordinate offset risk: MEDIUM]\n\nThe coordinate system of Google vector tiles depends on the region:\n- Inside Mainland China: GCJ-02, offset from the aircraft's WGS-84.\n- Outside Mainland China: WGS-84, aligned with the aircraft, no systematic offset.\n\nSafety requirements:\n1. When operating inside Mainland China, never use the map position as the reference. Use the actual dock position and keep task assignment within about 10 m of the dock.\n2. Outside Mainland China there is no systematic offset, but still verify the dock position.\n3. Always keep the FlightHub 2 virtual cockpit in view and be ready to take over at any time.\n\n[Compliance notice] This demo uses an unofficial Google tile endpoint for local demonstration and technical validation only. It is not supported by Google, may change or break at any time, and commercial use may violate the Google Terms of Service. For production, switch to the official Google Maps Platform API with a valid API key."
+      },
+      "unofficialEndpoint": true
+    },
+    {
+      "key": "google-satellite",
+      "name": "谷歌卫星图（海外推荐）",
+      "nameEn": "Google Satellite (Recommended outside Mainland China)",
+      "url": "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+      "maxZoom": 20,
+      "coordinateSystem": "WGS-84",
+      "offsetRisk": "low",
+      "footerNotice": {
+        "enabled": true,
+        "text": "ℹ️ 低风险：卫星影像为 WGS-84，与无人机坐标一致。但影像可能非最新，且在中国大陆会与矢量图层错位。仍请以机场位置为准。 ⚠️ 非官方瓦片接口，仅供演示，生产请用 Google Maps Platform 官方 API。",
+        "textEn": "ℹ️ Low risk: Satellite imagery uses WGS-84, aligned with the aircraft. However imagery may be outdated and will misalign with vector layers inside Mainland China. Still use the dock position as the reference. ⚠️ Unofficial tile endpoint, demo only. Use the official Google Maps Platform API in production."
+      },
+      "switchNotice": {
+        "enabled": true,
+        "message": "【坐标系偏移风险：低】\n\n谷歌卫星影像使用 WGS-84 坐标系，与无人机上报坐标一致，不存在系统性偏移。\n\n但仍需注意：\n· 影像拍摄时间可能较早，地物现状（建筑、障碍物、植被）可能已变化；\n· 在中国大陆，卫星影像会与 GCJ-02 的矢量图层出现明显错位，属正常现象。\n\n安全要求：\n1. 不可仅凭影像判断现场障碍物，务必以机场实际位置与现场情况为准；\n2. 任务指派建议控制在机场周围 10 米范围内；\n3. 执行任务时务必时刻关注司空 2 虚拟驾驶舱，随时准备接管，确保飞行安全！\n\n【接口合规提示】本 Demo 使用的是谷歌非官方公开瓦片接口，仅供本地演示与技术验证。该接口不受 Google 官方支持，可能随时变更或失效，且商用可能违反 Google 服务条款。生产环境请改用 Google Maps Platform 官方 API 并申请有效 API Key。",
+        "messageEn": "[Coordinate offset risk: LOW]\n\nGoogle satellite imagery uses WGS-84, aligned with the coordinates reported by the aircraft. There is no systematic offset.\n\nStill note:\n- Imagery may be old; buildings, obstacles and vegetation may have changed.\n- Inside Mainland China the imagery will visibly misalign with GCJ-02 vector layers. This is expected.\n\nSafety requirements:\n1. Do not judge on-site obstacles from imagery alone — rely on the actual dock position and real conditions.\n2. Keep task assignment within about 10 m of the dock.\n3. Always keep the FlightHub 2 virtual cockpit in view and be ready to take over at any time.\n\n[Compliance notice] This demo uses an unofficial Google tile endpoint for local demonstration and technical validation only. It is not supported by Google, may change or break at any time, and commercial use may violate the Google Terms of Service. For production, switch to the official Google Maps Platform API with a valid API key."
+      },
+      "unofficialEndpoint": true
+    },
+    {
+      "key": "osm",
+      "name": "OpenStreetMap（通用备选）",
+      "nameEn": "OpenStreetMap (Fallback)",
+      "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "maxZoom": 19,
+      "coordinateSystem": "WGS-84",
+      "offsetRisk": "low",
+      "footerNotice": {
+        "enabled": true,
+        "text": "ℹ️ 低风险：OSM 为 WGS-84 坐标系，与无人机坐标一致，无系统性偏移。但各地数据完整度与时效差异较大，仍请以机场位置为准。",
+        "textEn": "ℹ️ Low risk: OSM uses WGS-84, aligned with the aircraft, no systematic offset. Data completeness and currency vary by region — still use the dock position as the reference."
+      },
+      "switchNotice": {
+        "enabled": true,
+        "message": "【坐标系偏移风险：低】\n\nOpenStreetMap 使用 WGS-84 坐标系，与无人机上报坐标一致，不存在系统性偏移。\n\n但仍需注意：\n· OSM 为社区众包数据，不同地区的完整度、精度与更新时效差异较大；\n· 部分区域可能缺失道路、建筑或存在过时信息。\n\n安全要求：\n1. 不可仅凭底图判断现场情况，务必以机场实际位置为准；\n2. 任务指派建议控制在机场周围 10 米范围内；\n3. 执行任务时务必时刻关注司空 2 虚拟驾驶舱，随时准备接管，确保飞行安全！",
+        "messageEn": "[Coordinate offset risk: LOW]\n\nOpenStreetMap uses WGS-84, aligned with the coordinates reported by the aircraft. There is no systematic offset.\n\nStill note:\n- OSM is community-sourced; completeness, accuracy and currency vary significantly by region.\n- Some areas may lack roads or buildings, or contain outdated information.\n\nSafety requirements:\n1. Do not judge on-site conditions from the basemap alone — rely on the actual dock position.\n2. Keep task assignment within about 10 m of the dock.\n3. Always keep the FlightHub 2 virtual cockpit in view and be ready to take over at any time."
+      }
+    }
+  ]
+}

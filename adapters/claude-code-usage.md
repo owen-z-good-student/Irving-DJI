@@ -1,6 +1,8 @@
 # Claude Code Usage
 
-Last updated: 2026-06-24
+*English | [中文](./claude-code-usage.zh-CN.md)*
+
+Last updated: 2026-07-09
 
 ## Recommended installation pattern
 
@@ -20,6 +22,14 @@ I need a FlightHub 2 On-Premises middleware that sends DFR telemetry to our GIS 
 We use FlightHub 2 Public Cloud. Help design a VMS livestream integration for DFR operations.
 ```
 
+```text
+Use the FH2 integration skill to design an inspection middleware: let an operator upload a wayline, sync it to the FH2 route library, and run a scheduled substation thermal inspection.
+```
+
+```text
+We use FlightHub 2 On-Premises. Design how inspection media flows to our third-party AI defect analysis platform.
+```
+
 ## Expected first behavior
 
 If the deployment model is not known, the assistant should first ask:
@@ -32,11 +42,21 @@ Which FlightHub 2 deployment model are you integrating with?
 3. AIO / private all-in-one appliance
 ```
 
+After deployment is known, if the scenario is unclear, the assistant should ask:
+
+```text
+Which workflow scenario are you integrating?
+
+1. DFR / emergency response
+2. Inspection / patrol
+3. Both
+```
+
 ## Recommended follow-up flow
 
-After deployment is confirmed, ask for:
+After deployment and scenario are confirmed, ask for:
 
-- target platform: CAD / VMS / GIS / PSIM / evidence / dashboard
-- integration domain: dispatch / livestream / telemetry / media / events / frontend component
+- target platform: CAD / VMS / GIS / PSIM / evidence / dashboard / AI analytics
+- integration domain: dispatch / wayline / planned task / livestream / telemetry / media / events / frontend component
 - project phase: PoC / validation / security review / production
 - expected output: architecture / API mapping / implementation plan / code skeleton

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FH2 Integration Skill — User Guide</title>
+<style>
+:root{
+  --bg:#0f1115; --card:#171a21; --card2:#1d212a; --line:#2a2f3a;
+  --text:#e6e8ec; --muted:#9aa3b2; --brand:#4a9eff; --brand-dim:#2b6cb0;
+  --ok:#3fb950; --warn:#d29922; --danger:#f85149; --code:#1a1d24;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font:15px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  padding:0 0 80px;
+}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+header{
+  background:linear-gradient(160deg,#1a2332 0%,#131722 100%);
+  border-bottom:1px solid var(--line); padding:56px 0 44px; margin-bottom:40px;
+}
+header .wrap{text-align:center}
+h1{font-size:34px;font-weight:700;letter-spacing:-.5px;margin-bottom:12px}
+.sub{color:var(--muted);font-size:16px;max-width:660px;margin:0 auto 20px}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.badge{
+  background:var(--card2);border:1px solid var(--line);color:var(--muted);
+  padding:4px 12px;border-radius:20px;font-size:12.5px;
+}
+.badge.v{color:var(--brand);border-color:var(--brand-dim)}
+
+section{margin-bottom:48px}
+h2{
+  font-size:22px;font-weight:650;margin-bottom:18px;padding-bottom:10px;
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;
+}
+h2 .n{
+  background:var(--brand);color:#fff;width:26px;height:26px;border-radius:7px;
+  display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex:none;
+}
+h3{font-size:17px;font-weight:620;margin:26px 0 12px;color:#c9d1d9}
+p{margin-bottom:14px;color:#d0d5dd}
+ul,ol{margin:0 0 14px 22px}
+li{margin-bottom:7px;color:#d0d5dd}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:16px}
+.card h3{margin-top:0}
+
+.note{border-left:3px solid var(--brand);background:rgba(74,158,255,.07);padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:16px}
+.warn{border-left:3px solid var(--warn);background:rgba(210,153,34,.08);padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:16px}
+.danger{border-left:3px solid var(--danger);background:rgba(248,81,73,.08);padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:16px}
+.note b,.warn b,.danger b{display:block;margin-bottom:6px}
+
+table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:14px}
+th,td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+th{background:var(--card2);font-weight:600;color:#c9d1d9}
+td{color:#c5cbd6}
+tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+
+code{background:var(--code);padding:2px 6px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#79c0ff}
+pre{background:var(--code);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;margin-bottom:16px}
+pre code{background:none;padding:0;color:#c9d1d9;font-size:13px;line-height:1.65}
+
+.gate{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.gate-step{background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:14px 18px}
+.gate-step .t{font-weight:620;color:var(--brand);margin-bottom:4px;font-size:14px}
+.gate-arrow{text-align:center;color:var(--muted);font-size:18px;line-height:1}
+
+.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:16px}
+.path{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+.path .who{font-weight:650;margin-bottom:8px;color:#fff}
+.path .tag{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:20px;margin-bottom:10px}
+.t1{background:rgba(63,185,80,.15);color:var(--ok)}
+.t2{background:rgba(74,158,255,.15);color:var(--brand)}
+.t3{background:rgba(210,153,34,.15);color:var(--warn)}
+.path p{font-size:13.5px;margin-bottom:8px;color:var(--muted)}
+
+.toc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin-bottom:40px}
+.toc ol{margin:0 0 0 20px;columns:2;column-gap:30px}
+.toc li{margin-bottom:6px}
+.toc a{color:var(--brand);text-decoration:none}
+.toc a:hover{text-decoration:underline}
+
+footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:640px){
+  .toc ol{columns:1}
+  h1{font-size:26px}
+  .wrap{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>FH2 Integration Skill</h1>
+    <p class="sub">A domain skill for AI coding assistants that guides FlightHub 2 integration design across two workflows: DFR emergency response and inspection / patrol.</p>
+    <div class="badges">
+      <span class="badge v">v1.3.0-rc</span>
+      <span class="badge">fh2-integration-skill</span>
+      <span class="badge">Claude Code / Cursor / OpenCode</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="toc">
+  <ol>
+    <li><a href="#s1">What this is</a></li>
+    <li><a href="#s2">Who uses it, and how</a></li>
+    <li><a href="#s3">Installation</a></li>
+    <li><a href="#s4">Core mechanism: two gates</a></li>
+    <li><a href="#s5">What it can help with</a></li>
+    <li><a href="#s6">How to ask</a></li>
+    <li><a href="#s7">The bundled demo</a></li>
+    <li><a href="#s8">Safety boundaries</a></li>
+    <li><a href="#s9">Directory structure</a></li>
+    <li><a href="#s10">FAQ</a></li>
+  </ol>
+</div>
+
+<!-- 1 -->
+<section id="s1">
+  <h2><span class="n">1</span>What this is</h2>
+  <p>The <b>FH2 Integration Skill</b> is a domain expertise pack that installs into your AI coding assistant. Once installed, FlightHub 2 integration questions are answered through a validated methodology rather than from the model's recollection.</p>
+
+  <h3>The problem it solves</h3>
+  <table>
+    <tr><th>Without it</th><th>With it</th></tr>
+    <tr><td>The AI may invent endpoints that don't exist</td><td>Anti-hallucination is enforced: uncertainty is stated, and you're pointed to official docs to verify</td></tr>
+    <tr><td>Public Cloud and On-Premises APIs get mixed together</td><td>Deployment model is confirmed first; API boundaries stay separate</td></tr>
+    <tr><td>Emergency-response patterns get applied to routine inspection</td><td>Scenario is confirmed first; the two workflows are designed independently</td></tr>
+    <tr><td>Official docs are scattered — unclear where to start</td><td>Capability selection tables plus requirement-to-endpoint mapping</td></tr>
+    <tr><td>Generated code lacks safety guardrails</td><td>Signature verification, idempotency, authorization and audit are built into the baseline</td></tr>
+  </table>
+
+  <div class="note">
+    <b>In one sentence</b>
+    It doesn't write your business logic for you. It ensures the AI stays <b>accurate, in-bounds, and safety-complete</b> within the FlightHub 2 domain.
+  </div>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+  <h2><span class="n">2</span>Who uses it, and how</h2>
+  <div class="paths">
+    <div class="path">
+      <span class="tag t1">Non-developer</span>
+      <div class="who">Wants to know what's possible</div>
+      <p>Ask in plain language. The AI walks you through a capability menu, then narrows down to a fit for your business over a few turns.</p>
+      <p><b>Try:</b> "We want to use drones for campus security. What can FlightHub 2 offer?"</p>
+    </div>
+    <div class="path">
+      <span class="tag t2">Some familiarity</span>
+      <div class="who">Needs a demo, fast</div>
+      <p>Use the bundled runnable demo. Drop in your organization key and you have a working end-to-end flow.</p>
+      <p><b>Try:</b> "I need a demo to show leadership. Where do I start?"</p>
+    </div>
+    <div class="path">
+      <span class="tag t3">Experienced developer</span>
+      <div class="who">Blocked by scattered docs</div>
+      <p>Have the AI map your requirements onto concrete endpoints, then go straight to code.</p>
+      <p><b>Try:</b> "I'm integrating livestream. Which endpoints match, and where are the gaps?"</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+  <h2><span class="n">3</span>Installation</h2>
+  <p>Drop the entire <code>fh2-integration-skill/</code> directory into your assistant's skills folder. No additional dependencies.</p>
+
+  <h3>Claude Code / OpenCode</h3>
+  <pre><code># Path depends on your environment
+~/.claude/skills/fh2-integration-skill/
+# or
+~/.config/opencode/skills/fh2-integration-skill/</code></pre>
+  <p>The skill then activates automatically on FlightHub 2 / DFR / inspection topics.</p>
+
+  <h3>Cursor</h3>
+  <p>Copy the contents of <code>adapters/cursor-rules.md</code> into a project rule file:</p>
+  <pre><code>.cursor/rules/fh2-integration.mdc</code></pre>
+
+  <div class="note">
+    <b>Optional: attach an OpenAPI MCP</b>
+    If your environment has the FlightHub 2 / Apifox OpenAPI MCP connected, the skill <b>reads real endpoints and schemas through MCP</b> for requirement matching and code changes, instead of asking you to look them up. Without MCP it falls back to official documentation links. In neither case will it fabricate an endpoint.
+  </div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+  <h2><span class="n">4</span>Core mechanism: two gates</h2>
+  <p>This is the most important design decision in the skill. Before any API recommendation is made, two gates must be passed.</p>
+
+  <div class="gate">
+    <div class="gate-step">
+      <div class="t">Gate 1 · Deployment</div>
+      Which deployment model? <b>Public Cloud / On-Premises / AIO</b><br>
+      <span style="color:var(--muted);font-size:13.5px">Determines API surface and authentication model. The three do not expose the same capabilities.</span>
+    </div>
+    <div class="gate-arrow">&darr;</div>
+    <div class="gate-step">
+      <div class="t">Gate 2 · Scenario</div>
+      Which workflow? <b>DFR emergency response / Inspection &amp; patrol / Both</b><br>
+      <span style="color:var(--muted);font-size:13.5px">Determines interface selection, data flow and security focus.</span>
+    </div>
+    <div class="gate-arrow">&darr;</div>
+    <div class="gate-step">
+      <div class="t">Only then: the design</div>
+      Architecture · Interface mapping · Implementation plan · Security guardrails · Test plan
+    </div>
+  </div>
+
+  <div class="warn">
+    <b>Why the AI asks questions before answering</b>
+    This is deliberate. Deployment model changes which APIs exist; scenario changes which ones you should use. The skill is <b>explicitly forbidden from inferring deployment model</b> from token format, URL, domain or region — guessing wrong means handing you an architecture that cannot work.
+  </div>
+
+  <h3>How the two scenarios differ</h3>
+  <table>
+    <tr><th>Dimension</th><th>DFR / emergency</th><th>Inspection / patrol</th></tr>
+    <tr><td>Trigger</td><td>External alarm, CAD dispatch</td><td>Plan, schedule, cycle</td></tr>
+    <tr><td>Timing</td><td>Seconds, urgent</td><td>Routine, periodic</td></tr>
+    <tr><td>Primary interface</td><td>Automated dispatch workflow</td><td>Wayline + scheduled task</td></tr>
+    <tr><td>Data flow focus</td><td>Live video, human takeover</td><td>Capture &rarr; analyze &rarr; share</td></tr>
+    <tr><td>Post-processing</td><td>On-scene decision, evidence</td><td>AI / VLM defect detection, 3D reconstruction</td></tr>
+  </table>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+  <h2><span class="n">5</span>What it can help with</h2>
+
+  <h3>DFR / emergency response</h3>
+  <ul>
+    <li>Middleware from CAD or alarm systems into FlightHub 2 dispatch</li>
+    <li>Drone livestream into a VMS or command center wall</li>
+    <li>Telemetry into GIS / PSIM situational awareness platforms</li>
+    <li>Media and evidence archival pipelines</li>
+  </ul>
+
+  <h3>Inspection / patrol</h3>
+  <ul>
+    <li>Wayline upload, sync into the FlightHub 2 wayline library, scheduled task dispatch</li>
+    <li>Inspection media &rarr; AI / VLM defect analysis &rarr; third-party platform</li>
+    <li>3D reconstruction and point-cloud result sync</li>
+  </ul>
+
+  <h3>Common</h3>
+  <ul>
+    <li>Event API callback reception and handling</li>
+    <li>Choosing between FlightHub Sync / OpenAPI / MQTT Bridge</li>
+    <li>Verifying Public Cloud vs On-Premises API boundaries</li>
+    <li>Integrating FlightHub 2 into an <b>existing platform</b> (adapter layer design)</li>
+    <li>Implementation plans, test plans, security guardrails</li>
+  </ul>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+  <h2><span class="n">6</span>How to ask</h2>
+  <p>No special syntax. State the requirement normally. The examples below are copy-ready.</p>
+
+  <div class="card">
+    <h3>Capability discovery</h3>
+    <pre><code>We want to inspect electrical substations with drones. What can FlightHub 2 do here?</code></pre>
+  </div>
+
+  <div class="card">
+    <h3>DFR integration design</h3>
+    <pre><code>We're on FlightHub 2 Public Cloud. Design a middleware that turns CAD alarms into drone dispatch.</code></pre>
+  </div>
+
+  <div class="card">
+    <h3>Inspection integration design</h3>
+    <pre><code>We're on-premises. Design a middleware for scheduled thermal inspection of substations.</code></pre>
+  </div>
+
+  <div class="card">
+    <h3>Integrating with an existing system</h3>
+    <pre><code>We already run an operations platform. We want FlightHub 2 capabilities inside it, not a second standalone system.</code></pre>
+  </div>
+
+  <div class="card">
+    <h3>Endpoint mapping and code changes</h3>
+    <pre><code>I'm building livestream integration. Produce a requirement-to-endpoint match table and flag the gaps.</code></pre>
+  </div>
+
+  <div class="note">
+    <b>Tip</b>
+    If you already know your deployment model and scenario, <b>state both in your first message</b> (e.g. "we're on-premises, doing inspection"). That skips the two gates and goes straight to design.
+  </div>
+</section>
+
+<!-- 7 -->
+<section id="s7">
+  <h2><span class="n">7</span>The bundled demo</h2>
+  <p>The skill ships a <b>runnable</b> FlightHub 2 Public Cloud integration reference at <code>examples/dfr-public-cloud-demo/</code>.</p>
+
+  <table>
+    <tr><th>Page</th><th>Function</th><th>Capability shown</th></tr>
+    <tr><td>Project map</td><td>Pick a target and dispatch</td><td>Automated dispatch workflow</td></tr>
+    <tr><td>MQTT messages</td><td>Subscribe to drone telemetry</td><td>Telemetry forwarding</td></tr>
+    <tr><td>Inspection waylines</td><td>Upload and sync into the FH2 wayline library</td><td>FlightHub Sync external bucket</td></tr>
+    <tr><td>Event API messages</td><td>Receive and display callbacks</td><td>Event API</td></tr>
+    <tr><td>S3 bucket</td><td>Media and evidence file management</td><td>Object storage</td></tr>
+    <tr><td>Settings</td><td>All connection parameters</td><td>&mdash;</td></tr>
+  </table>
+
+  <h3>Quick start</h3>
+  <pre><code># Backend
+cd examples/dfr-public-cloud-demo/backend
+npm install &amp;&amp; npm start        # defaults to http://localhost:3000
+
+# Frontend (separate terminal)
+cd examples/dfr-public-cloud-demo/frontend
+npm install &amp;&amp; npm run serve</code></pre>
+  <p>Full steps are in <code>QUICKSTART.md</code> inside the demo; cloud deployment is covered in <code>deploy/README.md</code>.</p>
+
+  <div class="note" style="border-left-color:var(--ok);background:rgba(63,185,80,.07)">
+    <b>You can trial real dispatch locally — no server required</b>
+    With just an organization key, <b><code>localhost</code> can issue a real dispatch</b> — no cloud server, no public IP, no tunnel.
+    Dispatch is an <b>outbound-only</b> request (browser &rarr; local backend &rarr; FH2 cloud), so it traverses NAT without issue.
+    This is the fastest path from "reading docs" to "watching the dock open".
+  </div>
+
+  <table>
+    <tr><th>Feature</th><th>Traffic direction</th><th>Works purely local</th></tr>
+    <tr><td>Dispatch</td><td>You &rarr; FH2 cloud</td><td>Yes</td></tr>
+    <tr><td>Event API callbacks</td><td>FH2 cloud &rarr; you</td><td>No — needs public ingress</td></tr>
+    <tr><td>MQTT telemetry</td><td>FH2 cloud &rarr; your broker</td><td>No — needs public ingress</td></tr>
+    <tr><td>Wayline sync</td><td>FH2 cloud &rarr; your S3 bucket</td><td>No — needs public ingress</td></tr>
+  </table>
+  <p style="font-size:13.5px;color:var(--muted)">The last three require FlightHub 2 to <b>connect inbound</b> to your machine. A tunnel (<code>ngrok</code>, <code>cpolar</code>) unblocks them.</p>
+
+  <div class="danger">
+    <b>Dispatch drives real hardware</b>
+    This is not a simulation — the dock opens and the aircraft takes off. Before dispatching, confirm <b>airspace compliance and on-site human supervision</b>, and prefer a test dock.
+  </div>
+
+  <h3>What you need to prepare</h3>
+  <ul>
+    <li><b>Organization key</b>: FlightHub 2 &rarr; My Organization &rarr; Organization Settings &rarr; OpenAPI &rarr; copy key</li>
+    <li><b>Project UUID</b>: obtain via the "list projects under organization" endpoint</li>
+    <li>(Optional) MinIO / S3, MQTT broker, streaming server</li>
+  </ul>
+
+  <div class="danger">
+    <b>The demo is educational, not production-grade</b>
+    It deliberately omits production requirements (such as Event API signature verification and database persistence) to lower the cost of understanding. <b>Using it as-is in production is unsafe.</b> Read <code>LIMITATIONS.md</code> in the demo directory for the full list of known gaps and the production checklist.
+  </div>
+
+  <div class="warn">
+    <b>About the map</b>
+    The demo picks a basemap from your browser locale (Amap for Chinese, Google otherwise). <b>Every basemap carries a coordinate-system offset warning</b> — the map position is not the aircraft's actual flight position; always treat the dock location as your reference. The Google tiles used are an unofficial endpoint, for demonstration only; production must use the official API.
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="s8">
+  <h2><span class="n">8</span>Safety boundaries</h2>
+  <p>The skill enforces a set of hard constraints. Knowing them helps you judge how much to trust a given output.</p>
+
+  <h3>When the AI will stop and ask</h3>
+  <table>
+    <tr><th>Trigger</th><th>What it needs from you</th></tr>
+    <tr><td>Deployment model unknown</td><td>Public Cloud / On-Premises / AIO</td></tr>
+    <tr><td>Authentication unclear</td><td>Token / OAuth / SSO, and which values are placeholders</td></tr>
+    <tr><td>Flight control, dispatch, payload or device configuration involved</td><td>Authorized environment, human-in-the-loop, safety review path</td></tr>
+    <tr><td>Touching a real customer system</td><td>Explicit authorization and target environment</td></tr>
+    <tr><td>Endpoint not confirmed in documentation</td><td>Verification against official docs</td></tr>
+  </table>
+
+  <h3>What it will never do</h3>
+  <ul>
+    <li>Fabricate endpoints, request fields, event types or MQTT topics</li>
+    <li>Mix Public Cloud and On-Premises APIs</li>
+    <li>Recommend On-Premises-only capabilities for Public Cloud</li>
+    <li>Treat AI recognition output as directly actionable</li>
+    <li>Omit human-in-the-loop or geofencing flight-safety constraints</li>
+  </ul>
+
+  <div class="note">
+    <b>If the AI says "I cannot confirm this capability"</b>
+    That is <b>by design</b>, not a limitation. Telling you honestly and pointing to the official documentation is more valuable than inventing a plausible endpoint that doesn't work.
+  </div>
+</section>
+
+<!-- 9 -->
+<section id="s9">
+  <h2><span class="n">9</span>Directory structure</h2>
+  <pre><code>fh2-integration-skill/
+├── SKILL.md                    Entry point: workflow, checkpoints, output templates
+├── README.md / README.zh-CN.md Project overview (EN / zh-CN)
+├── references/                 Knowledge base (12 files + zh-CN index)
+│   ├── README.zh-CN.md             Chinese reading index — start here if you read zh
+│   ├── api-guardrails.md           Safety floor and anti-hallucination rules (highest priority)
+│   ├── capability-overview.md      Capability menu (for non-developers)
+│   ├── scenario-dfr-vs-inspection.md  Scenario decision
+│   ├── dfr-integration-architecture.md       DFR architecture and selection
+│   ├── inspection-integration-architecture.md Inspection architecture and selection
+│   ├── integrate-with-existing-system.md     Integrating into an existing platform
+│   ├── middleware-patterns.md      9 middleware design patterns
+│   ├── demo-localization.md        i18n and localization
+│   └── ...                         Deployment boundaries, API landscape, source map
+├── adapters/                   Claude Code / Cursor adapter guides
+├── evals/                      14 quality evaluation cases
+└── examples/
+    └── dfr-public-cloud-demo/  Runnable reference implementation</code></pre>
+
+  <div class="note">
+    <b>Want the knowledge base details?</b>
+    Ask the AI to walk you through any specific file. <code>references/README.zh-CN.md</code> also provides a per-file index describing what each document covers and when it gets used.
+  </div>
+</section>
+
+<!-- 10 -->
+<section id="s10">
+  <h2><span class="n">10</span>FAQ</h2>
+
+  <div class="card">
+    <h3>Why does the AI keep asking questions instead of answering?</h3>
+    <p>Because deployment model and scenario <b>fundamentally</b> change which interfaces are available. This is the core design, not verbosity. State both in your first message to skip the gates.</p>
+  </div>
+
+  <div class="card">
+    <h3>The knowledge files are in English. Can they be translated?</h3>
+    <p>Human-facing docs (README, usage guides, eval runbook, demo docs) have Chinese versions. <code>SKILL.md</code> and <code>references/</code> are behavioral constraints read by the AI and are <b>deliberately kept in English</b> — instruction-following precision is higher, and it avoids conflicting rules from drift between two language copies. To understand any file, just ask the AI to explain it in your language.</p>
+  </div>
+
+  <div class="card">
+    <h3>Can I use the endpoints the AI gives me directly?</h3>
+    <p><b>Not in production.</b> The skill marks what needs verification. Confirm exact request bodies, response fields and permission requirements against the official Apifox documentation before shipping.</p>
+  </div>
+
+  <div class="card">
+    <h3>Can I adapt the demo into our own system?</h3>
+    <p>Yes, but treat it as an <b>adapter-layer skeleton</b>, not a finished product. See <code>ARCHITECTURE.md</code> in the demo directory for how each module maps to the knowledge base, and what to add on the way to production.</p>
+  </div>
+
+  <div class="card">
+    <h3>Does this work for on-premises deployments?</h3>
+    <p>Yes. The skill covers Public Cloud, On-Premises and AIO, and keeps their API boundaries strictly separated. Note however that <b>the bundled demo targets Public Cloud</b> — on-premises has a broader interface surface and may use a different authentication model, so don't copy the demo code directly.</p>
+  </div>
+</section>
+
+<footer>
+  <p>FH2 Integration Skill v1.3.0-rc &middot; Updated 2026-08-06</p>
+  <p style="margin-top:8px">This skill is an integration design aid. It does not replace official DJI documentation, customer security review, legal review, aviation authorization, or production validation.</p>
+</footer>
+
+</div>
+</body>
+</html>

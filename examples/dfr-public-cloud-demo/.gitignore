@@ -1,0 +1,12 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+backend/Vue/
+
+# runtime user data (contains per-user config with secrets)
+backend/data/
+
+# env
+.env

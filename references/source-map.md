@@ -1,6 +1,6 @@
 # Source Map
 
-Last updated: 2026-06-24
+Last updated: 2026-07-09
 
 ## Primary sources used for this skill draft
 
@@ -11,11 +11,13 @@ Last updated: 2026-06-24
 
 2. FH2 OpenAPI V2.0 Public Cloud markdown
    - Source type: exported markdown reference provided by the skill maintainer
-   - Public latest reference provided by user: `https://s.apifox.cn/5113ab93-b1c2-4f3c-bc06-c3656c5352fb`
+   - Public latest reference provided by user (EN): `https://s.apifox.cn/5113ab93-b1c2-4f3c-bc06-c3656c5352fb`
+   - Public latest reference provided by user (中文): `https://s.apifox.cn/4de4a239-c2cc-4572-9b65-90738289f37a`
 
 3. FH2 OpenAPI V2.0 On-Premises default module markdown
    - Source type: exported default-module markdown reference provided by the skill maintainer
-   - Latest reference provided by user: `https://41b04hdzmc.apifox.cn/`
+   - Latest reference provided by user (EN): `https://41b04hdzmc.apifox.cn/`
+   - Latest reference provided by user (中文): `https://henvmbbf6x.apifox.cn/8983503m0`
 
 ## Verification notes
 

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FH2 集成技能 使用说明</title>
+<style>
+:root{
+  --bg:#0f1115; --card:#171a21; --card2:#1d212a; --line:#2a2f3a;
+  --text:#e6e8ec; --muted:#9aa3b2; --brand:#4a9eff; --brand-dim:#2b6cb0;
+  --ok:#3fb950; --warn:#d29922; --danger:#f85149; --code:#1a1d24;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  padding:0 0 80px;
+}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* header */
+header{
+  background:linear-gradient(160deg,#1a2332 0%,#131722 100%);
+  border-bottom:1px solid var(--line); padding:56px 0 44px; margin-bottom:40px;
+}
+header .wrap{text-align:center}
+h1{font-size:34px;font-weight:700;letter-spacing:-.5px;margin-bottom:12px}
+.sub{color:var(--muted);font-size:16px;max-width:640px;margin:0 auto 20px}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.badge{
+  background:var(--card2);border:1px solid var(--line);color:var(--muted);
+  padding:4px 12px;border-radius:20px;font-size:12.5px;
+}
+.badge.v{color:var(--brand);border-color:var(--brand-dim)}
+
+/* section */
+section{margin-bottom:48px}
+h2{
+  font-size:22px;font-weight:650;margin-bottom:18px;padding-bottom:10px;
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;
+}
+h2 .n{
+  background:var(--brand);color:#fff;width:26px;height:26px;border-radius:7px;
+  display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex:none;
+}
+h3{font-size:17px;font-weight:620;margin:26px 0 12px;color:#c9d1d9}
+p{margin-bottom:14px;color:#d0d5dd}
+ul,ol{margin:0 0 14px 22px}
+li{margin-bottom:7px;color:#d0d5dd}
+
+/* card */
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:16px}
+.card h3{margin-top:0}
+
+/* callout */
+.note{border-left:3px solid var(--brand);background:rgba(74,158,255,.07);padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:16px}
+.warn{border-left:3px solid var(--warn);background:rgba(210,153,34,.08);padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:16px}
+.danger{border-left:3px solid var(--danger);background:rgba(248,81,73,.08);padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:16px}
+.note b,.warn b,.danger b{display:block;margin-bottom:6px}
+
+/* table */
+table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:14px}
+th,td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+th{background:var(--card2);font-weight:600;color:#c9d1d9}
+td{color:#c5cbd6}
+tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+
+/* code */
+code{background:var(--code);padding:2px 6px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#79c0ff}
+pre{background:var(--code);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;margin-bottom:16px}
+pre code{background:none;padding:0;color:#c9d1d9;font-size:13px;line-height:1.65}
+
+/* gate flow */
+.gate{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.gate-step{background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:14px 18px;position:relative}
+.gate-step .t{font-weight:620;color:var(--brand);margin-bottom:4px;font-size:14px}
+.gate-arrow{text-align:center;color:var(--muted);font-size:18px;line-height:1}
+
+/* user paths */
+.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:16px}
+.path{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+.path .who{font-weight:650;margin-bottom:8px;color:#fff}
+.path .tag{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:20px;margin-bottom:10px}
+.t1{background:rgba(63,185,80,.15);color:var(--ok)}
+.t2{background:rgba(74,158,255,.15);color:var(--brand)}
+.t3{background:rgba(210,153,34,.15);color:var(--warn)}
+.path p{font-size:13.5px;margin-bottom:8px;color:var(--muted)}
+
+/* toc */
+.toc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin-bottom:40px}
+.toc ol{margin:0 0 0 20px;columns:2;column-gap:30px}
+.toc li{margin-bottom:6px}
+.toc a{color:var(--brand);text-decoration:none}
+.toc a:hover{text-decoration:underline}
+
+footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:640px){
+  .toc ol{columns:1}
+  h1{font-size:26px}
+  .wrap{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>FH2 集成技能</h1>
+    <p class="sub">面向 AI 编码助手的司空 2（FlightHub 2）集成设计技能，覆盖 DFR 应急响应与巡检巡逻两类工作流</p>
+    <div class="badges">
+      <span class="badge v">v1.3.0-rc</span>
+      <span class="badge">fh2-integration-skill</span>
+      <span class="badge">Claude Code / Cursor / OpenCode</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="toc">
+  <ol>
+    <li><a href="#s1">这是什么</a></li>
+    <li><a href="#s2">谁该怎么用</a></li>
+    <li><a href="#s3">安装</a></li>
+    <li><a href="#s4">核心机制：两道门</a></li>
+    <li><a href="#s5">能帮你做什么</a></li>
+    <li><a href="#s6">怎么提问</a></li>
+    <li><a href="#s7">配套 Demo</a></li>
+    <li><a href="#s8">安全边界</a></li>
+    <li><a href="#s9">目录结构</a></li>
+    <li><a href="#s10">常见问题</a></li>
+  </ol>
+</div>
+
+<!-- 1 -->
+<section id="s1">
+  <h2><span class="n">1</span>这是什么</h2>
+  <p><b>FH2 集成技能</b>是一个装在 AI 编码助手里的「领域专家包」。装上之后，当你向 AI 提出司空 2 相关的集成需求时，它会按照一套经过验证的方法论来回答，而不是凭记忆猜测。</p>
+
+  <h3>它解决什么问题</h3>
+  <table>
+    <tr><th>没有它</th><th>有了它</th></tr>
+    <tr><td>AI 可能编造不存在的 API 端点</td><td>强制反幻觉：不确定就说不确定，并指向官方文档核验</td></tr>
+    <tr><td>把公有云和私有化的接口混着用</td><td>先确认部署形态，严格区分 API 边界</td></tr>
+    <tr><td>把应急出警的做法套到日常巡检上</td><td>先确认场景，两类工作流分别设计</td></tr>
+    <tr><td>官方文档分散，不知道从哪查起</td><td>按能力域整理好的选型表 + 需求↔端点匹配</td></tr>
+    <tr><td>生成的代码缺安全护栏</td><td>内置验签、幂等、权限、审计等最低要求</td></tr>
+  </table>
+
+  <div class="note">
+    <b>一句话</b>
+    它不替你写业务代码，而是保证 AI 在司空 2 这个领域里<b>不乱说、不越界、不漏安全项</b>。
+  </div>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+  <h2><span class="n">2</span>谁该怎么用</h2>
+  <div class="paths">
+    <div class="path">
+      <span class="tag t1">不懂二次开发</span>
+      <div class="who">想先知道能做什么</div>
+      <p>直接用大白话提问，AI 会按能力菜单给你介绍，再通过多轮对话理出适合你业务的方案。</p>
+      <p><b>试试问：</b>「我们想用无人机做园区安防，司空 2 大概能提供哪些能力？」</p>
+    </div>
+    <div class="path">
+      <span class="tag t2">略懂，想快速演示</span>
+      <div class="who">要跑个东西给领导看</div>
+      <p>用配套的可运行 Demo，填上你的司空 2 组织密钥就能体验完整流程。</p>
+      <p><b>试试问：</b>「我想快速跑个 Demo 给领导看，怎么开始？」</p>
+    </div>
+    <div class="path">
+      <span class="tag t3">资深开发</span>
+      <div class="who">卡在文档分散</div>
+      <p>让 AI 帮你把需求映射到具体端点，产出匹配表后直接改代码。</p>
+      <p><b>试试问：</b>「我要做直播接入，帮我看哪些端点能对上，缺口在哪」</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+  <h2><span class="n">3</span>安装</h2>
+  <p>把整个 <code>fh2-integration-skill/</code> 目录放到你的 AI 助手技能目录下即可，无需额外依赖。</p>
+
+  <h3>Claude Code / OpenCode</h3>
+  <pre><code># 放到本地技能目录（具体路径取决于你的环境）
+~/.claude/skills/fh2-integration-skill/
+# 或
+~/.config/opencode/skills/fh2-integration-skill/</code></pre>
+  <p>之后直接提问司空 2 / DFR / 巡检相关问题即可自动触发。</p>
+
+  <h3>Cursor</h3>
+  <p>把 <code>adapters/cursor-rules.md</code> 里的内容复制成项目规则文件：</p>
+  <pre><code>.cursor/rules/fh2-integration.mdc</code></pre>
+
+  <div class="note">
+    <b>可选：挂载 OpenAPI MCP</b>
+    如果你的环境接入了司空 2 / Apifox 的 OpenAPI MCP，本技能会<b>优先通过 MCP 读取真实端点与结构</b>来做需求匹配和改代码，而不是让你自己翻文档。没有 MCP 时会回退到官方文档链接。两种情况下都不会编造端点。
+  </div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+  <h2><span class="n">4</span>核心机制：两道门</h2>
+  <p>这是本技能最重要的设计。AI 在给出任何 API 建议之前，必须先通过两道门。</p>
+
+  <div class="gate">
+    <div class="gate-step">
+      <div class="t">第一道 · 部署 Gate</div>
+      你的司空 2 是哪种部署形态？<b>公有云 / 私有化 / AIO 一体机</b><br>
+      <span style="color:var(--muted);font-size:13.5px">决定 API 范围与认证模型。三者的接口能力面并不相同。</span>
+    </div>
+    <div class="gate-arrow">↓</div>
+    <div class="gate-step">
+      <div class="t">第二道 · 场景 Gate</div>
+      你要集成哪类工作流？<b>DFR 应急响应 / 巡检巡逻 / 两者都要</b><br>
+      <span style="color:var(--muted);font-size:13.5px">决定接口选型、数据流与安全关注点。</span>
+    </div>
+    <div class="gate-arrow">↓</div>
+    <div class="gate-step">
+      <div class="t">才开始给方案</div>
+      架构设计 · 接口映射 · 实施计划 · 安全护栏 · 测试计划
+    </div>
+  </div>
+
+  <div class="warn">
+    <b>为什么 AI 会「先问你问题」而不是直接给答案</b>
+    这是刻意设计的。部署形态不同，可用的 API 完全不同；场景不同，该选的接口也不同。<b>技能被明确禁止从 token 格式、URL、域名、区域等线索去推断部署形态</b>——猜错的代价是给你一套跑不通的方案。
+  </div>
+
+  <h3>两类场景的差异</h3>
+  <table>
+    <tr><th>维度</th><th>DFR / 应急</th><th>巡检 / 巡逻</th></tr>
+    <tr><td>触发源</td><td>外部告警、CAD 接处警</td><td>计划、定时、周期</td></tr>
+    <tr><td>时效</td><td>秒级应急</td><td>常态周期</td></tr>
+    <tr><td>主接口</td><td>自动派遣工作流</td><td>航线 + 计划任务</td></tr>
+    <tr><td>数据流重点</td><td>实时直播、人工接管</td><td>采集 → 分析 → 共享</td></tr>
+    <tr><td>后处理</td><td>现场处置、证据归档</td><td>AI / VLM 缺陷识别、三维重建</td></tr>
+  </table>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+  <h2><span class="n">5</span>能帮你做什么</h2>
+
+  <h3>DFR / 应急响应</h3>
+  <ul>
+    <li>CAD、告警系统 → 司空 2 出警派遣中间件</li>
+    <li>无人机直播接入 VMS / 指挥中心大屏</li>
+    <li>遥测数据接入 GIS / PSIM 态势平台</li>
+    <li>媒体与证据归档管道</li>
+  </ul>
+
+  <h3>巡检 / 巡逻</h3>
+  <ul>
+    <li>航线上传、同步到司空 2 航线库、计划任务下发</li>
+    <li>巡检媒体 → AI / VLM 缺陷分析 → 第三方平台</li>
+    <li>三维重建 / 点云成果同步</li>
+  </ul>
+
+  <h3>通用</h3>
+  <ul>
+    <li>Event API 回调接收与处理</li>
+    <li>FlightHub Sync / OpenAPI / MQTT Bridge 接口选型</li>
+    <li>公有云与私有化的 API 边界核对</li>
+    <li>把司空 2 能力接进你<b>已有的平台</b>（适配层设计）</li>
+    <li>实施计划、测试计划、安全护栏</li>
+  </ul>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+  <h2><span class="n">6</span>怎么提问</h2>
+  <p>不需要特殊语法，正常说需求即可。以下示例可直接复制。</p>
+
+  <div class="card">
+    <h3>能力咨询</h3>
+    <pre><code>我们想用无人机做变电站巡检，司空 2 能提供哪些能力？帮我理一个方案。</code></pre>
+  </div>
+
+  <div class="card">
+    <h3>DFR 集成设计</h3>
+    <pre><code>我们用司空 2 公有云，帮我设计一个 CAD 告警到出警派遣的中间件。</code></pre>
+  </div>
+
+  <div class="card">
+    <h3>巡检集成设计</h3>
+    <pre><code>我们是私有化部署，设计一个变电站定时热成像巡检的任务下发中间件。</code></pre>
+  </div>
+
+  <div class="card">
+    <h3>对接已有系统</h3>
+    <pre><code>我们已经有一套运维平台，想把司空 2 能力接进去，而不是再上一套独立系统。</code></pre>
+  </div>
+
+  <div class="card">
+    <h3>找端点、改代码</h3>
+    <pre><code>我要做直播接入，帮我看看哪些端点能对上，产出一个需求↔端点匹配表。</code></pre>
+  </div>
+
+  <div class="note">
+    <b>小技巧</b>
+    如果你已经知道部署形态和场景，<b>在第一句就说明</b>（例如「我们是私有化部署，做巡检」），可以跳过两道门的追问，直接进入方案设计。
+  </div>
+</section>
+
+<!-- 7 -->
+<section id="s7">
+  <h2><span class="n">7</span>配套 Demo</h2>
+  <p>技能内附一个<b>可运行</b>的司空 2 公有云集成参考实现，位于 <code>examples/dfr-public-cloud-demo/</code>。</p>
+
+  <table>
+    <tr><th>页面</th><th>功能</th><th>对应能力</th></tr>
+    <tr><td>项目地图</td><td>点选目标下发出警</td><td>自动派遣工作流</td></tr>
+    <tr><td>MQTT 信息</td><td>订阅无人机遥测</td><td>遥测转发</td></tr>
+    <tr><td>巡检航线</td><td>上传航线并同步到司空 2 航线库</td><td>FlightHub Sync 外部桶</td></tr>
+    <tr><td>Event API 信息</td><td>接收并展示回调消息</td><td>Event API</td></tr>
+    <tr><td>S3 存储桶</td><td>媒体与证据文件管理</td><td>对象存储</td></tr>
+    <tr><td>配置设置</td><td>填写全部连接参数</td><td>—</td></tr>
+  </table>
+
+  <h3>快速启动</h3>
+  <pre><code># 后端
+cd examples/dfr-public-cloud-demo/backend
+npm install && npm start        # 默认 http://localhost:3000
+
+# 前端（另开终端）
+cd examples/dfr-public-cloud-demo/frontend
+npm install && npm run serve</code></pre>
+  <p>详细步骤见 Demo 目录内的 <code>QUICKSTART.md</code>，上云部署见 <code>deploy/README.md</code>。</p>
+
+  <div class="note" style="border-left-color:var(--ok);background:rgba(63,185,80,.07)">
+    <b>本地就能试用真实接处警，不用买服务器</b>
+    只要有司空 2 组织密钥，<b>本机 <code>localhost</code> 就能下发真实出警派遣</b>——无需云服务器、无需公网 IP、无需内网穿透。
+    因为派遣是<b>纯出站请求</b>（浏览器 → 本地后端 → 司空云），穿 NAT 无障碍。
+    这是从「看文档」到「看机场开舱」最快的一条路。
+  </div>
+
+  <table>
+    <tr><th>功能</th><th>流量方向</th><th>纯本地</th></tr>
+    <tr><td>出警派遣</td><td>你 → 司空云</td><td>✅ 可用</td></tr>
+    <tr><td>Event API 回调</td><td>司空云 → 你</td><td>❌ 需公网入口</td></tr>
+    <tr><td>MQTT 遥测</td><td>司空云 → 你的 broker</td><td>❌ 需公网入口</td></tr>
+    <tr><td>航线同步</td><td>司空云 → 你的 S3 桶</td><td>❌ 需公网入口</td></tr>
+  </table>
+  <p style="font-size:13.5px;color:var(--muted)">后三项需要司空 2 <b>主动连进</b>你的机器，可用 <code>ngrok</code> / <code>cpolar</code> 内网穿透解锁。</p>
+
+  <div class="danger">
+    <b>派遣会驱动真实设备</b>
+    这不是模拟——机场会真实开舱、无人机会起飞。下发前请确认<b>空域合规、现场有人监护</b>，并优先使用测试机场。
+  </div>
+
+  <h3>你需要准备</h3>
+  <ul>
+    <li><b>组织密钥</b>：司空 2 → 我的组织 → 组织设置 → OpenAPI → 复制密钥</li>
+    <li><b>项目 UUID</b>：调用「获取组织下的项目列表」接口获取</li>
+    <li>（可选）MinIO / S3、MQTT broker、推流服务器</li>
+  </ul>
+
+  <div class="danger">
+    <b>Demo 是教学级，不是生产级</b>
+    它刻意省略了部分生产必需项（如 Event API 验签、数据库存储），用于降低理解成本。<b>直接用于生产是不安全的。</b>务必阅读 Demo 目录下的 <code>LIMITATIONS.md</code>，其中列出了全部已知局限和生产化清单。
+  </div>
+
+  <div class="warn">
+    <b>关于地图</b>
+    Demo 会根据你的浏览器语言自动选择底图（中文用户用高德，其他用谷歌）。<b>所有底图都会提示坐标系偏移风险</b>——地图位置不等于无人机实飞位置，务必以机场位置为基准。另外 Demo 使用的谷歌瓦片是非官方接口，仅供演示，生产须换用官方 API。
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="s8">
+  <h2><span class="n">8</span>安全边界</h2>
+  <p>技能内置了一批强制约束，理解这些能帮你更好地判断 AI 输出的可信度。</p>
+
+  <h3>AI 会主动停下来的情况</h3>
+  <table>
+    <tr><th>触发条件</th><th>需要你确认</th></tr>
+    <tr><td>部署形态未知</td><td>公有云 / 私有化 / AIO</td></tr>
+    <tr><td>认证模式不明</td><td>Token / OAuth / SSO，哪些是占位符</td></tr>
+    <tr><td>涉及飞控、派遣、载荷、设备配置</td><td>授权环境、人工介入、安全评审路径</td></tr>
+    <tr><td>要操作真实客户系统</td><td>明确授权与目标环境</td></tr>
+    <tr><td>端点未在文档中确认</td><td>请你到官方文档核验</td></tr>
+  </table>
+
+  <h3>绝对不会做的事</h3>
+  <ul>
+    <li>编造端点、请求字段、事件类型、MQTT topic</li>
+    <li>混用公有云与私有化的 API</li>
+    <li>给公有云推荐仅私有化支持的能力</li>
+    <li>把 AI 识别结果当作可直接执行的处置依据</li>
+    <li>省略人在回路、地理围栏等飞行安全约束</li>
+  </ul>
+
+  <div class="note">
+    <b>如果 AI 说「我无法确认这个能力」</b>
+    这不是能力不足，而是<b>设计如此</b>。相比编一个看起来合理但跑不通的端点，明确告知不确定并指向官方文档，对你更有价值。
+  </div>
+</section>
+
+<!-- 9 -->
+<section id="s9">
+  <h2><span class="n">9</span>目录结构</h2>
+  <pre><code>fh2-integration-skill/
+├── SKILL.md                    技能入口：工作流、检查点、输出模板
+├── README.md / README.zh-CN.md 项目说明（中英双语）
+├── references/                 知识库（12 篇 + 中文导读）
+│   ├── README.zh-CN.md             中文导读索引，建议从这里看起
+│   ├── api-guardrails.md           安全底线与反幻觉规则（优先级最高）
+│   ├── capability-overview.md      能力总览菜单（面向非开发者）
+│   ├── scenario-dfr-vs-inspection.md  场景决策
+│   ├── dfr-integration-architecture.md       DFR 架构与选型
+│   ├── inspection-integration-architecture.md 巡检架构与选型
+│   ├── integrate-with-existing-system.md     对接已有平台
+│   ├── middleware-patterns.md      9 种中间件设计模式
+│   ├── demo-localization.md        多语言与本地化
+│   └── ...                         部署边界、API 能力全景、来源溯源
+├── adapters/                   Claude Code / Cursor 适配指南
+├── evals/                      14 条质量评估用例
+└── examples/
+    └── dfr-public-cloud-demo/  可运行的参考实现</code></pre>
+
+  <div class="note">
+    <b>想了解知识库细节？</b>
+    打开 <code>references/README.zh-CN.md</code>，那是一份中文导读索引，说明每个文件讲什么、什么时候会被用到。
+  </div>
+</section>
+
+<!-- 10 -->
+<section id="s10">
+  <h2><span class="n">10</span>常见问题</h2>
+
+  <div class="card">
+    <h3>为什么 AI 总是先反问我，不直接给答案？</h3>
+    <p>因为部署形态和场景会<b>根本性地</b>改变可用接口。这是技能的核心设计，不是啰嗦。你可以在第一句就说明这两点来跳过追问。</p>
+  </div>
+
+  <div class="card">
+    <h3>技能里的知识文件是英文的，能翻译吗？</h3>
+    <p>面向人的文档（README、使用指南、评估手册、Demo 文档）都有中文版。<code>SKILL.md</code> 和 <code>references/</code> 是给 AI 读的行为约束，<b>刻意保持英文</b>——英文指令的遵循精度更高，且避免中英不同步产生冲突规则。需要理解某个文件时，直接让 AI 用中文给你讲解即可。</p>
+  </div>
+
+  <div class="card">
+    <h3>AI 给的端点能直接用吗？</h3>
+    <p><b>不能直接用于生产。</b>技能会标注哪些需要核验。请务必对照官方 Apifox 文档确认确切的请求体、响应字段和权限要求后再上生产。</p>
+  </div>
+
+  <div class="card">
+    <h3>Demo 能改成我们自己的系统吗？</h3>
+    <p>可以，但建议把它当作<b>适配层骨架</b>而非成品。参考 Demo 目录下的 <code>ARCHITECTURE.md</code>，其中有各模块与知识库的映射关系，以及从演示到生产需要补齐的项。</p>
+  </div>
+
+  <div class="card">
+    <h3>私有化部署也能用这个技能吗？</h3>
+    <p>可以。技能同时覆盖公有云与私有化/AIO，并会严格区分两者的接口边界。但要注意<b>配套 Demo 是按公有云写的</b>，私有化的接口面更广、认证方式可能不同，不要直接照搬 Demo 代码。</p>
+  </div>
+</section>
+
+<footer>
+  <p>FH2 集成技能 v1.3.0-rc · 更新于 2026-08-06</p>
+  <p style="margin-top:8px">本技能是集成设计辅助工具，不能替代大疆官方文档、客户安全评审、法律评审、航空审批或生产验证。</p>
+</footer>
+
+</div>
+</body>
+</html>

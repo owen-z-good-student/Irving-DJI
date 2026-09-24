@@ -1,0 +1,62 @@
+version: '3.8'
+
+# DFR Demo 依赖服务（MinIO / MQTT / SRS）
+# 用法：
+#   docker compose up -d            启动全部
+#   docker compose up -d minio mqtt 只启动需要的
+#   docker compose stop srs         演示完停掉直播，省流量
+#
+# 注意：Node 后端不在这里，用 systemd 管理（见 deploy/README.md）
+
+services:
+  # ---------- S3 兼容存储（媒体 / 证据归档）----------
+  minio:
+    image: minio/minio:latest
+    container_name: dfr-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?必须在 .env 中设置用户名}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?必须在 .env 中设置强密码}
+    ports:
+      - "9000:9000"   # S3 API
+      - "9001:9001"   # 控制台
+    volumes:
+      - minio-data:/data
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ---------- MQTT broker（遥测接收）----------
+  mqtt:
+    image: emqx/emqx:5.8
+    container_name: dfr-mqtt
+    restart: unless-stopped
+    environment:
+      EMQX_DASHBOARD__DEFAULT_PASSWORD: ${EMQX_PASSWORD:?必须在 .env 中设置强密码}
+    ports:
+      - "1883:1883"   # MQTT
+      - "8083:8083"   # MQTT over WebSocket（前端 mqtt.js 用这个）
+      - "18083:18083" # 控制台
+    volumes:
+      - emqx-data:/opt/emqx/data
+    mem_limit: 768m
+
+  # ---------- SRS 流媒体（直播转发）----------
+  # 最耗流量，演示完请 docker compose stop srs
+  srs:
+    image: ossrs/srs:5
+    container_name: dfr-srs
+    restart: unless-stopped
+    ports:
+      - "1935:1935"   # RTMP 推流
+      - "8080:8080"   # HTTP-FLV 播放
+      - "1985:1985"   # API
+    mem_limit: 512m
+
+volumes:
+  minio-data:
+  emqx-data:

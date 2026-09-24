@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for improving Awesome DFR Integration Skill.
+Thanks for improving FH2 Integration Skill.
 
 ## Contribution scope
 
@@ -30,4 +30,4 @@ evals/evals.json
 evals/eval-runbook.md
 ```
 
-Release-candidate quality requires at least 8 / 9 evals to pass with no critical failure.
+Release-candidate quality requires at least 13 / 14 evals to pass with no critical failure.

@@ -1,6 +1,8 @@
-# DFR Middleware Patterns
+# FH2 Middleware Patterns
 
-Last updated: 2026-06-24
+Last updated: 2026-07-09
+
+Patterns 1–6 are primarily DFR / emergency scenario. Patterns 7–9 are inspection / patrol scenario. See `scenario-dfr-vs-inspection.md` for choosing.
 
 ## Pattern 1 — CAD / alarm to FH2 dispatch middleware
 
@@ -133,3 +135,63 @@ Boundary:
 - available only for On-Premises / AIO private deployment
 - do not recommend Frontend Components, `paas.js`, Virtual Cockpit embedding, Route Editor embedding, Flight Records embedding, or Project / Map embedding for Public Cloud
 - authorize control-capable components only for necessary roles
+
+## Pattern 7 — Scheduled inspection task dispatch middleware (inspection)
+
+Use when inspection must run on a schedule instead of on an external alarm.
+
+```text
+scheduler (cron / job queue)
+  → select synced wayline
+  → create planned flight task (references wayline)
+  → monitor task status / completion events
+  → breakpoint resume on interruption (where supported)
+```
+
+Design checklist:
+
+- drive task creation from a scheduler, never from a DFR alarm trigger
+- reference a wayline already synced to the FH2 route library
+- persist task status and handle completion / failure events
+- support `resume-immediate` breakpoint resume where the API supports it
+- log every planned dispatch with task ID and wayline ID
+- keep a manual pause / cancel path
+
+## Pattern 8 — Inspection media to AI / VLM defect analysis (inspection)
+
+Use when captured inspection media must be analyzed for defects by a third-party platform.
+
+```text
+FH2 task completes
+  → media_file_uploaded / file_sync_success events
+  → FlightHub Sync pushes media to S3-compatible storage
+  → third-party AI / VLM platform pulls media, runs defect detection
+  → ai_alert_record events (where supported) surface findings
+  → results linked into asset / reporting system
+```
+
+Design checklist:
+
+- separate visible-light and thermal media where inspection items differ
+- treat AI / VLM output as findings, not automatic asset action; keep human review
+- record object key, capture time, task ID, and defect metadata
+- implement retry for failed analysis handoff
+- verify `ai_alert_record` payload in Apifox before treating fields as final
+
+## Pattern 9 — Model / reconstruction result sync (inspection)
+
+Use when 3D reconstruction, point cloud, or orthophoto outputs must reach a GIS / asset platform.
+
+```text
+FH2 model reconstruction
+  → model_reconstruction_percent_change / model_post_reconstruction events
+  → model / open_model endpoints provide resource + download URL
+  → middleware pulls result and syncs to GIS / archive
+```
+
+Design checklist:
+
+- drive sync from reconstruction events rather than polling where possible
+- use model / open_model resource and download-URL endpoints
+- verify exact event names and resource schemas in Apifox
+- record model UUID, resource UUID, and reconstruction status

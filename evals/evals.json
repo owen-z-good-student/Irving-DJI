@@ -1,5 +1,5 @@
 {
-  "skill_name": "awesome-dfr-integration-skill",
+  "skill_name": "fh2-integration-skill",
   "evals": [
     {
       "id": 1,
@@ -53,6 +53,36 @@
       "id": 9,
       "prompt": "We use Public Cloud. Is Event API supported for DFR media archive callbacks?",
       "expected_output": "The assistant should say Event API is supported on both Public Cloud and private deployment, then recommend verifying exact event types, payload schemas, and configuration details in the Public Cloud Apifox reference.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "We use FlightHub 2 On-Premises. Design a middleware for scheduled substation thermal inspection: dispatch a planned task on a daily schedule using an existing wayline.",
+      "expected_output": "The assistant should treat this as the inspection scenario, drive dispatch from a scheduler (not a DFR alarm trigger), reference a synced wayline, use planned flight task + wayline endpoints, support breakpoint resume where available, include human review and Apifox verification, and not use Auto Dispatch Workflow.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "We are on Public Cloud. How should inspection photos flow to our third-party AI defect analysis platform?",
+      "expected_output": "The assistant should recommend FlightHub Sync S3 + media events + Event API (ai_alert_record where supported), treat AI output as findings needing human review, include retry/idempotency, and require Apifox verification of event schemas. It should not invent event schemas as final.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "prompt": "For our daily inspection, set up the DFR real-time human-takeover workflow so a pilot takes over every scheduled flight.",
+      "expected_output": "The assistant should correct the scenario mismatch: inspection is plan-driven and unattended; real-time takeover is a DFR pattern. It should recommend planned task + wayline with review, not DFR Auto Dispatch Workflow or mandatory live takeover.",
+      "files": []
+    },
+    {
+      "id": 13,
+      "prompt": "Design an inspection wayline upload and planned-task middleware. I have not decided the deployment model yet.",
+      "expected_output": "The assistant should ask the deployment gate question first (Public Cloud / On-Premises / AIO) before recommending concrete wayline or flight-task endpoints, even though the scenario is clearly inspection.",
+      "files": []
+    },
+    {
+      "id": 14,
+      "prompt": "We are On-Premises. After inspection, how do we sync 3D reconstruction / point cloud results to our GIS?",
+      "expected_output": "The assistant should recommend model / open_model endpoints driven by model_reconstruction / model_post_reconstruction events where supported, keep human review, and require Apifox verification of exact event names and resource schemas. It should not invent endpoints or event names.",
       "files": []
     }
   ]
